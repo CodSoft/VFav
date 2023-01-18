@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "VFav",
-    "slug": "VFav",
+    "slug": "vfav",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2633c1a1-60d8-44be-a561-0916a50cbda6"
+      }
+    },
+    "owner": "codsoft"
   }
 }
