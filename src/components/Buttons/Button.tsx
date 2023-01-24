@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, StyleProp, ViewStyle, TouchableOpacity, Text, View } from 'react-native';
+import { StyleSheet, StyleProp, ViewStyle, TouchableOpacity, Text, View, TextStyle } from 'react-native';
 import { useSelector } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -14,33 +14,32 @@ interface ButtonProps {
   start?: { x: number, y: number };
   end?: { x: number, y: number };
   ripple?: boolean;
+  labelStyle?: StyleProp<TextStyle>;
+  onPress?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ containerStyle, children, label, color, start, end, ripple}) => {
+const Button: React.FC<ButtonProps> = ({ containerStyle, children, label, color, start, end, ripple, labelStyle, onPress = () => null }) => {
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   let labelValue = label ? label : 'Button';
   let rippleValue = ripple ? ripple : false;
   let colorValue = color ? color : 'blue';
+  let labelStyleValue = labelStyle ? labelStyle : { fontSize: 20, color: 'white', fontWeight: 'bold' };
 
   const RippleBox = () => {
     return (
       <CircleRipple
         style={styles.ripple}
-        onTap={() => {
-          console.log('tap');
-        }}>
-        <Text style={{ fontSize: 20, color: 'white' }}>{labelValue}</Text>
+        onTap={onPress}>
+        <Text style={labelStyleValue as {}}>{labelValue}</Text>
       </CircleRipple>
     )
   }
 
   const NormalBox = () => {
     return (
-      <View style={[styles.rippleContainer]}>
-        <Text style={{ fontSize: 20, color: 'white' }}>{labelValue}</Text>
-      </View>
+      <Text style={labelStyleValue as {}}>{labelValue}</Text>
     )
   }
 
@@ -50,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({ containerStyle, children, label, color,
         colors={colorValue as string[]}
         start={start}
         end={end}
-        style={[styles.rippleContainer]}
+        style={[styles.rippleContainer, { height: '100%', width: '100%' }]}
       >
         {ripple ? <RippleBox /> : <NormalBox />}
       </LinearGradient>
@@ -61,10 +60,10 @@ const Button: React.FC<ButtonProps> = ({ containerStyle, children, label, color,
     <TouchableOpacity
       style={typeof (colorValue) == 'string'
         ? [styles.rippleContainer, { backgroundColor: colorValue }, containerStyle]
-        : null}
+        : [styles.rippleContainer, containerStyle]}
       activeOpacity={rippleValue ? 1 : 0.2}
-      onPress={() => {}}
-      >
+      onPress={!rippleValue ? onPress : () => null}
+    >
       {rippleValue
         ? typeof (colorValue) == 'object'
           ? <GradientBox />
