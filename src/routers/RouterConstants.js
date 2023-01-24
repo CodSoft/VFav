@@ -1,5 +1,5 @@
 const RouterConstants = {
   Home: 'Home',
-  Login: 'Login',
+  Welcome: 'Welcome',
 };
 export default RouterConstants;

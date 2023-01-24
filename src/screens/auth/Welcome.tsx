@@ -9,7 +9,7 @@ import Button from '../../components/Buttons/Button';
 
 const window = Dimensions.get('window')
 
-const Login = () => {
+const Welcome = () => {
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
 
@@ -74,4 +74,4 @@ const createStyles = (theme: any) =>
     },
   });
 
-export default Login;
+export default Welcome;
