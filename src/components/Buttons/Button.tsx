@@ -7,7 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import CircleRipple from '../Ripple/CircleRipple';
 
 interface ButtonProps {
-  style?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
   label?: string;
   color?: string[] | string;
@@ -16,7 +16,7 @@ interface ButtonProps {
   ripple?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ style, children, label, color, start, end, ripple, ...props }) => {
+const Button: React.FC<ButtonProps> = ({ containerStyle, children, label, color, start, end, ripple}) => {
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
 
@@ -60,7 +60,7 @@ const Button: React.FC<ButtonProps> = ({ style, children, label, color, start, e
   return (
     <TouchableOpacity
       style={typeof (colorValue) == 'string'
-        ? [styles.rippleContainer, { backgroundColor: colorValue }]
+        ? [styles.rippleContainer, { backgroundColor: colorValue }, containerStyle]
         : null}
       activeOpacity={rippleValue ? 1 : 0.2}
       onPress={() => {}}
