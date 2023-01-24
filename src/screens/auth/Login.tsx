@@ -25,22 +25,20 @@ const Login = () => {
                 style={styles.imageUpperContainer} />
             </View>
           </View>
-          {/* <Image source={require('../../../assets/images/cupid.png')} style={{ width: 200, height: 200, alignSelf: 'center', resizeMode: 'stretch', marginTop: 40 }} /> */}
-          {/* <Text style={{ fontSize: 30, fontWeight: 'bold', alignSelf: 'center', color: 'white' }}>FIND YOUR LOVE</Text> */}
-          <Button label={'Login'}
-            color={['#4c669f', '#3b5998', '#192f6a']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            ripple={false}
+          <Image source={require('../../../assets/images/cupid.png')} style={{ width: 200, height: 200, alignSelf: 'center', resizeMode: 'stretch', marginTop: 40 }} />
+          <Text style={{ fontSize: 30, fontWeight: 'bold', alignSelf: 'center', color: 'white', textTransform: 'uppercase', textAlign: 'center' }}>use me or die single !</Text>
+          <Button label={'Log In'}
+            color={'white'}
+            labelStyle={{ fontSize: 20, color: 'rgba(255,87,87,1). ', fontWeight: 'bold' }}
           />
           <Button
             label={'Sign Up'}
-            color={['#4c669f', '#3b5998', '#192f6a']}
-            ripple={true}
+            color={['#FF914D', '#ff5757']}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 0, y: 0 }}
+            labelStyle={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}
+            containerStyle={{ borderColor: 'white', borderWidth: 1 }}
           />
-          <Button label={'Sign'} />
-          <Button color={['#4c669f', '#3b5998', '#192f6a']} ripple={true} />
-
         </ImageBackground>
       </View>
     </SafeAreaView>
