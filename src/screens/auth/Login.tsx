@@ -25,20 +25,22 @@ const Login = () => {
                 style={styles.imageUpperContainer} />
             </View>
           </View>
-          <Image source={require('../../../assets/images/cupid.png')} style={{ width: 200, height: 200, alignSelf: 'center', resizeMode: 'stretch', marginTop: 40 }} />
-          <Text style={{ fontSize: 30, fontWeight: 'bold', alignSelf: 'center', color: 'white', textTransform: 'uppercase', textAlign: 'center' }}>use me or die single !</Text>
-          <Button label={'Log In'}
-            color={'white'}
-            labelStyle={{ fontSize: 20, color: 'rgba(255,87,87,1). ', fontWeight: 'bold' }}
-          />
-          <Button
-            label={'Sign Up'}
-            color={['#FF914D', '#ff5757']}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 0 }}
-            labelStyle={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}
-            containerStyle={{ borderColor: 'white', borderWidth: 1 }}
-          />
+          <Image source={require('../../../assets/images/cupid.png')} style={{ width: '40%', height: '25%', alignSelf: 'center', resizeMode: 'stretch', marginTop: 40 }} />
+          <Text style={{ marginVertical: 10, fontSize: 30, fontWeight: 'bold', alignSelf: 'center', color: 'white', textTransform: 'uppercase', textAlign: 'center' }}>use me or die single !</Text>
+          <View style={{ marginTop: 30 }}>
+            <Button label={'Log In'}
+              color={'white'}
+              labelStyle={{ fontSize: 20, color: 'rgba(255,87,87,1). ', fontWeight: 'bold' }}
+              onPress={() => { }}
+            />
+            <Button
+              label={'Sign Up'}
+              color={['#FF914D', '#ff5757']}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 0, y: 0 }}
+              labelStyle={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}
+              containerStyle={{ borderColor: 'white', borderWidth: 1 }}
+            /></View>
         </ImageBackground>
       </View>
     </SafeAreaView>
