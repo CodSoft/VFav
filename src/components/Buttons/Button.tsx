@@ -22,10 +22,10 @@ const Button: React.FC<ButtonProps> = ({ containerStyle, children, label, color,
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  let labelValue = label ? label : 'Button';
-  let rippleValue = ripple ? ripple : false;
-  let colorValue = color ? color : 'blue';
-  let labelStyleValue = labelStyle ? labelStyle : { fontSize: 20, color: 'white', fontWeight: 'bold' };
+  const labelValue = label ? label : 'Button';
+  const rippleValue = ripple ? ripple : false;
+  const colorValue = color ? color : 'blue';
+  const labelStyleValue = labelStyle ? labelStyle : { fontSize: 20, color: 'white', fontWeight: 'bold' };
 
   const RippleBox = () => {
     return (
