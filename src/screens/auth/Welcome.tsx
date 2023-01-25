@@ -30,7 +30,7 @@ const Welcome = () => {
           <View style={{ marginTop: 30 }}>
             <Button label={'Log In'}
               color={'white'}
-              labelStyle={{ fontSize: 20, color: 'rgba(255,87,87,1). ', fontWeight: 'bold' }}
+              labelStyle={{ fontSize: 20, color: 'rgba(255,87,87,1)', fontWeight: 'bold' }}
               onPress={() => { }}
             />
             <Button
@@ -40,7 +40,8 @@ const Welcome = () => {
               end={{ x: 0, y: 0 }}
               labelStyle={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}
               containerStyle={{ borderColor: 'white', borderWidth: 1 }}
-            /></View>
+            />
+          </View>
         </ImageBackground>
       </View>
     </SafeAreaView>
