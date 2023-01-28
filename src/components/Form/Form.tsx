@@ -11,6 +11,7 @@ import Checkbox from 'expo-checkbox';
 interface FormProps {
   style?: StyleProp<ViewStyle>;
 }
+
 const Form: React.FC<FormProps> = ({ style }) => {
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -31,30 +32,8 @@ const Form: React.FC<FormProps> = ({ style }) => {
   return (
     <View style={style}>
       <NeuView radius={10}>
-        <View
-          style={{
-            marginTop: 20,
-            marginBottom: 10,
-            position: 'relative',
-            flexDirection: 'row',
-            marginLeft: '10%',
-            justifyContent: 'space-between',
-            width: '38%',
-            // backgroundColor: 'blue',
-          }}
-        >
-          <Animated.View
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              height: '120%',
-              borderBottomColor: '#FF914D',
-              borderBottomWidth: 2,
-              width: active ? '50%' : '40%',
-              transform: [{ translateX }],
-            }}
-          />
+        <View style={styles.tabContainer}>
+          <Animated.View style={[styles.tabIndicator, { width: active ? '50%' : '40%', transform: [{ translateX }] }]} />
           <TouchableOpacity
             onLayout={(event) => setXLogin(event.nativeEvent.layout.x)}
             onPress={() => {
@@ -76,12 +55,12 @@ const Form: React.FC<FormProps> = ({ style }) => {
         <TextInput label="email" containerStyle={styles.inputText} iconName={'email-outline'} keyboardType={'email-address'} />
         <TextInput label="password" containerStyle={[styles.inputText, { marginBottom: !active ? 10 : 20 }]} iconName={'lock'} />
         {!active ? (
-          <View style={{ width: '80%', alignSelf: 'center', justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20 }}>
+          <View style={styles.externalfield}>
             <View style={{ flexDirection: 'row' }}>
               <Checkbox color={'#FF914D'} value={true} />
-              <Text style={{ fontSize: 12, fontWeight: 'bold', color: 'rgb(150, 150, 150)' }}> Keep me Log in</Text>
+              <Text style={[styles.text, { color: 'rgb(150, 150, 150)' }]}> Keep me Log in</Text>
             </View>
-            <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#ff5757' }}>Forgot Password?</Text>
+            <Text style={[styles.text, , { color: '#ff5757' }]}>Forgot Password?</Text>
           </View>
         ) : null}
         <Button
@@ -89,7 +68,7 @@ const Form: React.FC<FormProps> = ({ style }) => {
           color={['#FF914D', '#ff5757']}
           start={{ x: 1, y: 0 }}
           end={{ x: 0, y: 0 }}
-          labelStyle={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}
+          labelStyle={styles.buttonLabel}
           containerStyle={{
             width: '80%',
             height: 50,
@@ -101,7 +80,7 @@ const Form: React.FC<FormProps> = ({ style }) => {
           onPress={() => console.log('pressed')}
         />
         {active ? (
-          <Text style={{ fontSize: 12, fontWeight: 'bold', alignSelf: 'center', marginBottom: 40, color: 'rgb(150, 150, 150)' }}>
+          <Text style={[styles.text, { alignSelf: 'center', marginBottom: 40, color: 'rgb(150, 150, 150)' }]}>
             We don't spam we'll take care of your <Text style={{ color: '#ff5757' }}>Privacy</Text>
           </Text>
         ) : null}
@@ -114,6 +93,40 @@ const createStyles = (theme: any) =>
     inputText: {
       width: '80%',
       marginTop: 20,
+    },
+    tabContainer: {
+      marginTop: 20,
+      marginBottom: 10,
+      position: 'relative',
+      flexDirection: 'row',
+      marginLeft: '10%',
+      justifyContent: 'space-between',
+      width: '38%',
+      // backgroundColor: 'blue',
+    },
+    tabIndicator: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      height: '120%',
+      borderBottomColor: '#FF914D',
+      borderBottomWidth: 2,
+    },
+    externalfield: {
+      width: '80%',
+      alignSelf: 'center',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      marginBottom: 20,
+    },
+    text: {
+      fontSize: 12,
+      fontWeight: 'bold',
+    },
+    buttonLabel: {
+      fontSize: 20,
+      color: 'white',
+      fontWeight: 'bold',
     },
   });
 
