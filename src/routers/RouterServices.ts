@@ -1,16 +1,16 @@
 import * as React from 'react';
-export const NavigationRef = React.createRef();
-import {StackActions} from '@react-navigation/native';
+export const NavigationRef: any = React.createRef();
+import { StackActions } from '@react-navigation/native';
 
-export function navigate(name, params) {
+export function navigate(name: any, params: any) {
   if (NavigationRef.current) {
     NavigationRef.current.navigate(name, params);
   }
 }
 
-export function nestedNavigate(root, child, params) {
+export function nestedNavigate(root: any, child: any, params: any) {
   if (NavigationRef.current) {
-    NavigationRef.current.navigate(root, {screen: child, params: params});
+    NavigationRef.current.navigate(root, { screen: child, params: params });
   }
 }
 
@@ -20,7 +20,7 @@ export function goBack() {
   }
 }
 
-export function pop(count) {
+export function pop(count: number | undefined) {
   if (NavigationRef.current) {
     NavigationRef.current.dispatch(StackActions.pop(count));
   }
@@ -32,17 +32,17 @@ export function popToTop() {
   }
 }
 
-export function resetRoot(rootName) {
+export function resetRoot(rootName: any) {
   if (NavigationRef.current) {
     NavigationRef.current.resetRoot({
       index: 0,
-      routes: [{name: rootName}],
+      routes: [{ name: rootName }],
     });
   }
 }
 
-export function push(...args) {
+export function push(...args: any[]) {
   if (NavigationRef.current) {
-    NavigationRef.current.dispatch(StackActions.push(...args));
+    NavigationRef.current.dispatch(StackActions.push(...(args as [any])));
   }
 }
