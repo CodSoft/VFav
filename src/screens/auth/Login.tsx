@@ -11,7 +11,7 @@ import Form from '../../components/Form/Form';
 
 const window = Dimensions.get('window');
 
-const Login = ({ navigation }: any) => {
+const Login = ({ navigation, route }: any) => {
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
 
@@ -34,7 +34,7 @@ const Login = ({ navigation }: any) => {
               Find your love in the world of many. Please sign in to your account as we care your privacy.
             </Text>
           </View>
-          <Form />
+          <Form sliderIndex={route.params.sliderIndex} />
         </View>
       </View>
     </SafeAreaView>
