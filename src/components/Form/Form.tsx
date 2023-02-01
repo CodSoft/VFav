@@ -10,16 +10,23 @@ import Checkbox from 'expo-checkbox';
 
 interface FormProps {
   style?: StyleProp<ViewStyle>;
+  sliderIndex?: number;
 }
 
-const Form: React.FC<FormProps> = ({ style }) => {
+const Form: React.FC<FormProps> = ({ style, sliderIndex }) => {
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  let [active, setActive] = React.useState(0);
+  const sliderValue = sliderIndex || 0;
+
+  let [active, setActive] = React.useState(sliderValue);
   let [xTabLogin, setXLogin] = React.useState(0);
   let [xTabSignUp, setXSignUp] = React.useState(0);
   let [translateX, setTranslateX] = React.useState(new Animated.Value(0));
+
+  // console.log('translateX: ', translateX);
+  // console.log('xTabLogin: ', xTabLogin);
+  // console.log('xTabSignUp: ', xTabSignUp);
 
   function handleSlide(type: number) {
     Animated.timing(translateX, {
@@ -28,6 +35,10 @@ const Form: React.FC<FormProps> = ({ style }) => {
       useNativeDriver: true,
     }).start();
   }
+
+  React.useEffect(() => {
+    sliderValue ? setTranslateX(new Animated.Value(xTabSignUp)) : null;
+  }, [xTabSignUp]);
 
   return (
     <View style={style}>
@@ -40,7 +51,7 @@ const Form: React.FC<FormProps> = ({ style }) => {
               setActive(0), handleSlide(xTabLogin);
             }}
           >
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Log In</Text>
+            <Text style={styles.sliderLabel}>Log In</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onLayout={(event) => setXSignUp(event.nativeEvent.layout.x)}
@@ -48,7 +59,7 @@ const Form: React.FC<FormProps> = ({ style }) => {
               setActive(1), handleSlide(xTabSignUp);
             }}
           >
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Sign Up</Text>
+            <Text style={styles.sliderLabel}>Sign Up</Text>
           </TouchableOpacity>
         </View>
         {active ? <TextInput label="username" containerStyle={styles.inputText} iconName={'account-circle-outline'} /> : null}
@@ -69,14 +80,12 @@ const Form: React.FC<FormProps> = ({ style }) => {
           start={{ x: 1, y: 0 }}
           end={{ x: 0, y: 0 }}
           labelStyle={styles.buttonLabel}
-          containerStyle={{
-            width: '80%',
-            height: 50,
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: active ? 10 : 40,
-          }}
+          containerStyle={[
+            styles.buttonContainer,
+            {
+              marginBottom: active ? 10 : 40,
+            },
+          ]}
           onPress={() => console.log('pressed')}
         />
         {active ? (
@@ -127,6 +136,17 @@ const createStyles = (theme: any) =>
       fontSize: 20,
       color: 'white',
       fontWeight: 'bold',
+    },
+    sliderLabel: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    buttonContainer: {
+      width: '80%',
+      height: 50,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
 
