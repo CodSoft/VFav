@@ -32,7 +32,7 @@ const Welcome = ({ navigation }: any) => {
                 fontWeight: 'bold',
               }}
               onPress={() => {
-                navigation.navigate('Login');
+                navigation.navigate('Login', { sliderIndex: 0 });
               }}
             />
             <Button
@@ -43,7 +43,7 @@ const Welcome = ({ navigation }: any) => {
               labelStyle={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}
               containerStyle={{ borderColor: 'white', borderWidth: 1 }}
               onPress={() => {
-                navigation.navigate('Login');
+                navigation.navigate('Login', { sliderIndex: 1 });
               }}
             />
           </View>
