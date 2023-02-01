@@ -24,6 +24,8 @@ const Form: React.FC<FormProps> = ({ style, sliderIndex }) => {
   let [xTabSignUp, setXSignUp] = React.useState(0);
   let [translateX, setTranslateX] = React.useState(new Animated.Value(0));
 
+  const [isChecked, setChecked] = React.useState(false);
+
   // console.log('translateX: ', translateX);
   // console.log('xTabLogin: ', xTabLogin);
   // console.log('xTabSignUp: ', xTabSignUp);
@@ -67,8 +69,13 @@ const Form: React.FC<FormProps> = ({ style, sliderIndex }) => {
         <TextInput label="password" containerStyle={[styles.inputText, { marginBottom: !active ? 10 : 20 }]} iconName={'lock'} />
         {!active ? (
           <View style={styles.externalfield}>
-            <View style={{ flexDirection: 'row' }}>
-              <Checkbox color={'#FF914D'} value={true} />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Checkbox
+                value={isChecked}
+                onValueChange={setChecked}
+                color={isChecked ? '#FF914D' : undefined}
+                style={{ borderColor: 'rgb(150, 150, 150)' }}
+              />
               <Text style={[styles.text, { color: 'rgb(150, 150, 150)' }]}> Keep me Log in</Text>
             </View>
             <Text style={[styles.text, , { color: '#ff5757' }]}>Forgot Password?</Text>
@@ -127,6 +134,7 @@ const createStyles = (theme: any) =>
       justifyContent: 'space-between',
       flexDirection: 'row',
       marginBottom: 20,
+      alignItems: 'center',
     },
     text: {
       fontSize: 12,
