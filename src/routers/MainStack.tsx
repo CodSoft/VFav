@@ -40,7 +40,7 @@ const MainStack = () => {
       {modalStatus.show ? <CustomSeekBar /> : null}
       <InternetConnection is_internet={internet} />
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {auth ? <Stack.Screen name="HomeStack" component={HomeStack} /> : <Stack.Screen name="AuthStack" component={AuthStack} />}
+        {!auth ? <Stack.Screen name="HomeStack" component={HomeStack} /> : <Stack.Screen name="AuthStack" component={AuthStack} />}
       </Stack.Navigator>
     </>
   );
