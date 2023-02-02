@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, StyleProp, ViewStyle, Text, Animated, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
 
 //file
 import NeuView from '../Neumorphism/NeuView';
 import TextInput from '../TextInput/TextInput';
 import Button from '../Buttons/Button';
 import Checkbox from 'expo-checkbox';
+import { loginManager } from '../../redux/auth';
+import useApi from '../../hooks/useApi';
 
 interface FormProps {
   style?: StyleProp<ViewStyle>;
@@ -14,22 +17,32 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ style, sliderIndex }) => {
+  //props
+  const sliderValue = sliderIndex || 0;
+
+  //styles
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const sliderValue = sliderIndex || 0;
+  //api and redux
+  const { apiCall } = useApi();
+  const dispatch = useDispatch();
 
+  //animation
   let [active, setActive] = React.useState(sliderValue);
   let [xTabLogin, setXLogin] = React.useState(0);
   let [xTabSignUp, setXSignUp] = React.useState(0);
   let [translateX, setTranslateX] = React.useState(new Animated.Value(0));
 
+  //checkbok
   const [isChecked, setChecked] = React.useState(false);
 
-  // console.log('translateX: ', translateX);
-  // console.log('xTabLogin: ', xTabLogin);
-  // console.log('xTabSignUp: ', xTabSignUp);
+  //input
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
 
+  //animation handler
   function handleSlide(type: number) {
     Animated.timing(translateX, {
       toValue: type,
@@ -38,9 +51,29 @@ const Form: React.FC<FormProps> = ({ style, sliderIndex }) => {
     }).start();
   }
 
+  //animation effect for Sign Up tab, passed as default
   React.useEffect(() => {
     sliderValue ? setTranslateX(new Animated.Value(xTabSignUp)) : null;
   }, [xTabSignUp]);
+
+  //api call for login
+  const onLoginPress = () => {
+    dispatch<any>(
+      loginManager(apiCall, {
+        email,
+        password,
+      })
+    );
+  };
+
+  //debounce function for input
+  const action = _.debounce((text: string, delay: number, type: string) => {
+    if (type === 'email') setEmail(text);
+
+    if (type === 'password') setPassword(text);
+
+    if (type === 'username') setUsername(text);
+  }, 1000);
 
   return (
     <View style={style}>
@@ -64,9 +97,28 @@ const Form: React.FC<FormProps> = ({ style, sliderIndex }) => {
             <Text style={styles.sliderLabel}>Sign Up</Text>
           </TouchableOpacity>
         </View>
-        {active ? <TextInput label="username" containerStyle={styles.inputText} iconName={'account-circle-outline'} /> : null}
-        <TextInput label="email" containerStyle={styles.inputText} iconName={'email-outline'} keyboardType={'email-address'} />
-        <TextInput label="password" containerStyle={[styles.inputText, { marginBottom: !active ? 10 : 20 }]} iconName={'lock'} />
+        {active ? (
+          <TextInput
+            onChangeText={(text) => action(text, 1000, 'username')}
+            label="username"
+            containerStyle={styles.inputText}
+            iconName={'account-circle-outline'}
+          />
+        ) : null}
+        <TextInput
+          label="email"
+          onChangeText={(text) => action(text, 1000, 'email')}
+          value={email}
+          containerStyle={styles.inputText}
+          iconName={'email-outline'}
+          keyboardType={'email-address'}
+        />
+        <TextInput
+          label="password"
+          onChangeText={(text) => action(text, 1000, 'password')}
+          containerStyle={[styles.inputText, { marginBottom: !active ? 10 : 20 }]}
+          iconName={'lock'}
+        />
         {!active ? (
           <View style={styles.externalfield}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -93,7 +145,7 @@ const Form: React.FC<FormProps> = ({ style, sliderIndex }) => {
               marginBottom: active ? 10 : 40,
             },
           ]}
-          onPress={() => console.log('pressed')}
+          onPress={() => onLoginPress()}
         />
         {active ? (
           <Text style={[styles.text, { alignSelf: 'center', marginBottom: 40, color: 'rgb(150, 150, 150)' }]}>
