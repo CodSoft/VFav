@@ -1,43 +1,36 @@
-import {useCallback} from 'react';
+import { useCallback } from 'react';
 import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from 'react-native';
 
 // Files
-import {BASE_URL} from '../constants/api';
-import {setTokens, signOut} from '../redux/auth';
-import {getUtcOffset} from '../utils/domUtils';
-import {Alert} from 'react-native';
+import { BASE_URL } from '../constants/api';
+import { setToken, logOut } from '../redux/auth';
+import { getUtcOffset } from '../utils/domUtils';
 
-const getInstance = ({
-  tokens,
-  setTokens,
-  logOut,
-  customUrl,
-  url,
-  KeyId,
-}: any) => {
+const getInstance = ({ token, logOut, customUrl, url, KeyId }: any) => {
   const instance = axios.create({
     baseURL: customUrl ? url : BASE_URL,
   });
 
   instance.interceptors.request.use(
     (config: any) => {
-      config.headers['UtcOffsetInSecond'] = getUtcOffset();
+      // config.headers['UtcOffsetInSecond'] = getUtcOffset();
       if (KeyId !== 0) {
         config.headers['Content-Type'] = 'multipart/form-data';
         config.headers['KeyId'] = KeyId;
       } else {
         config.headers['Content-Type'] = 'application/json';
       }
-      if (tokens) {
-        config.headers['Authorization'] = 'Bearer ' + tokens;
+      if (token) {
+        config.headers['Authorization'] = 'Bearer ' + token;
         // config.headers['AuthorizationToken'] = 'Bearer ' + tokens;
       }
       return config;
     },
     (error: any) => {
       Promise.reject(error);
-    },
+    }
   );
 
   instance.interceptors.response.use(
@@ -82,40 +75,33 @@ const getInstance = ({
           throw new Error(err.message);
         }
       }
-    },
+    }
   );
 
   return instance;
 };
 
 const useApi = () => {
-  const tokens = useSelector((state: any) => state.auth.tokens);
+  const token = useSelector((state: any) => state.auth.token);
   const dispatch = useDispatch();
 
-  const logOut = useCallback(() => {
-    dispatch(signOut());
+  const log_out = useCallback(() => {
+    dispatch(logOut());
   }, [dispatch]);
 
-  const setToken = useCallback(
+  const set_token = useCallback(
     (data: any) => {
-      dispatch(setTokens(data));
+      dispatch(setToken(data));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const apiCall = useCallback(
-    async ({
-      KeyId = 0,
-      customUrl = false,
-      type,
-      url,
-      data,
-      params = {},
-    }: any) => {
+    async ({ KeyId = 0, customUrl = false, type, url, data, params = {} }: any) => {
       const instance = getInstance({
-        tokens,
-        setToken,
-        logOut,
+        token,
+        set_token,
+        log_out,
         customUrl,
         url,
         KeyId,
@@ -156,10 +142,10 @@ const useApi = () => {
         throw new Error(error.message);
       }
     },
-    [logOut, setToken, tokens],
+    [logOut, setToken, token]
   );
 
-  return {apiCall};
+  return { apiCall };
 };
 
 export default useApi;

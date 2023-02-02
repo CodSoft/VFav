@@ -1,17 +1,9 @@
-import React, {useMemo} from 'react';
-import {
-  Modal,
-  StyleSheet,
-  Pressable,
-  View,
-  Text,
-  ActivityIndicator,
-  StatusBar,
-} from 'react-native';
-import {useSelector} from 'react-redux';
-import {strings} from '../constants';
-import {fonts} from '../theme';
-import {getScreenHeight, getScreenWidth} from '../utils/domUtils';
+import React, { useMemo } from 'react';
+import { Modal, StyleSheet, Pressable, View, Text, ActivityIndicator, StatusBar } from 'react-native';
+import { useSelector } from 'react-redux';
+import { strings } from '../constants';
+import { fonts } from '../theme';
+import { getScreenHeight, getScreenWidth } from '../utils/domUtils';
 
 const CustomLoadingModal = (props: any) => {
   const theme = useSelector((state: any) => state.colors.theme);
@@ -19,11 +11,7 @@ const CustomLoadingModal = (props: any) => {
 
   return (
     <>
-      <Modal
-        visible={props.visible}
-        animationType="fade"
-        transparent={true}
-        {...props}>
+      <Modal visible={props.visible} animationType="fade" transparent={true} {...props}>
         <StatusBar barStyle={'dark-content'} />
         <Pressable onPress={props.pressHandler} style={styles.modalScreen}>
           <View style={styles.modalContanier}>
@@ -60,7 +48,7 @@ const createStyles = (theme: any) =>
       alignItems: 'center',
     },
     title: {
-      fontFamily: fonts.medium,
+      // fontFamily: fonts.medium,
       color: theme.textColor,
       marginLeft: getScreenHeight(1),
     },
