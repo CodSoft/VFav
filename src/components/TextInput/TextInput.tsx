@@ -11,20 +11,24 @@ interface ExtraInputProps {
   keyboardType?: TextInputProps['keyboardType'];
   containerStyle?: StyleProp<ViewStyle>;
   iconSize?: number;
+  onChangeText?: (text: string) => void;
 }
 
 type InputProps = ExtraInputProps & TextInputProps;
 
-const StyledTextInput: React.FC<InputProps> = ({ label, iconName, iconColor, placeholder, keyboardType, containerStyle, iconSize }) => {
+const StyledTextInput: React.FC<InputProps> = ({ label, iconName, iconColor, placeholder, keyboardType, containerStyle, iconSize, onChangeText }) => {
+  //styles
   const theme = useSelector((state: any) => state.colors.theme);
   const styles = useMemo(() => createStyles(theme), [theme]);
 
+  //props
   const labelValue = label ? label : 'Label';
   const iconNameValue = iconColor ? iconColor : 'rgba(255,87,87,1)';
   const placeholderValue = placeholder ? placeholder : 'placeholder';
   const keyboardTypeValue = keyboardType ? keyboardType : 'default';
   const iconSizeValue = iconSize ? iconSize : 24;
 
+  //default placeholder value
   const _defaultPlaceholderValue = () => {
     switch (labelValue.toLocaleLowerCase()) {
       case 'email' || 'e-mail':
@@ -37,9 +41,11 @@ const StyledTextInput: React.FC<InputProps> = ({ label, iconName, iconColor, pla
         return 'placeholder';
     }
   };
+
   const defaultPlaceholderValue = _defaultPlaceholderValue();
 
-  const [value, onChangeValue] = useState('');
+  //state
+  // const [value, onChangeValue] = useState('');
 
   // console.log(labelValue.toLocaleLowerCase() === 'password' ? true : false);
 
@@ -49,8 +55,8 @@ const StyledTextInput: React.FC<InputProps> = ({ label, iconName, iconColor, pla
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeValue}
-          value={value}
+          onChangeText={onChangeText}
+          // value={value}
           placeholder={defaultPlaceholderValue}
           keyboardType={keyboardTypeValue}
           secureTextEntry={labelValue.toLocaleLowerCase() === 'password' ? true : false}
