@@ -1,9 +1,13 @@
-import {Dimensions} from 'react-native';
+import { Dimensions, ToastAndroid } from 'react-native';
+import { z } from 'zod';
+
+//file
+import strings from '../constants/strings';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
-const emailCheckRegex =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// const emailCheckRegex =
+//   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const getScreenWidth = (value: any) => {
   if (value) {
@@ -29,14 +33,29 @@ export const getUtcOffset = () => {
   return utcOffsetInSecond;
 };
 
-export const checkEmail = (email: any) => {
-  return emailCheckRegex.test(email.trim());
-};
+// export const checkEmail = (email: any) => {
+//   return emailCheckRegex.test(email.trim());
+// };
 
-export const checkPassword = (password: any) => {
-  return password.trim().length >= 3;
-};
+// export const checkPassword = (password: any) => {
+//   return password.trim().length >= 3;
+// };
 
-export const getNumbersOnly = (value: any) => {
-  return value.replace(/[^0-9]/g, '');
+// export const getNumbersOnly = (value: any) => {
+//   return value.replace(/[^0-9]/g, '');
+// };
+
+export const loginSchema = (obj: any) => {
+  try {
+    const FormData = z.object({
+      email: z.string().min(1, { message: strings.emailRequired }).email({ message: strings.invalidEmail }),
+      password: z.string().min(1, { message: strings.passwordRequired }),
+    });
+    const res = FormData.parse(obj);
+    return res;
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      ToastAndroid.show(err.issues[0].message, ToastAndroid.SHORT);
+    }
+  }
 };
